@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Guy Diangana — Azure infrastructure security, IAM, security operations and DevSecOps portfolio.">
+  <title>Guy Diangana | Security Portfolio</title>
+  <style>
+    :root {
+      --ink: #071827;
+      --navy: #0b2945;
+      --teal: #1fc5b7;
+      --muted: #587080;
+      --line: #d7e2e9;
+      --paper: #f5f8fa;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--white);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.6;
+    }
+
+    a { color: inherit; }
+    .wrap { width: min(1120px, calc(100% - 40px)); margin: auto; }
+
+    header {
+      background: var(--ink);
+      border-bottom: 3px solid var(--teal);
+      color: white;
+    }
+
+    nav {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .brand {
+      color: white;
+      text-decoration: none;
+      font-size: .9rem;
+      font-weight: 850;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+    }
+
+    .brand span { color: #79e9df; }
+
+    .links { display: flex; gap: 22px; }
+    .links a {
+      color: #d3e1e9;
+      text-decoration: none;
+      font-size: .92rem;
+    }
+
+    .hero {
+      padding: 88px 0 74px;
+      color: white;
+      background:
+        radial-gradient(circle at 80% 10%, #174e74 0, transparent 34%),
+        linear-gradient(125deg, #0b2945, #071827);
+    }
+
+    .eyebrow {
+      color: #82e9e1;
+      font-size: .8rem;
+      font-weight: 850;
+      letter-spacing: .13em;
+      text-transform: uppercase;
+    }
+
+    h1 {
+      max-width: 880px;
+      margin: 12px 0 18px;
+      font-size: clamp(2.6rem, 5.5vw, 4.9rem);
+      line-height: 1.03;
+      letter-spacing: -.06em;
+    }
+
+    .hero p {
+      max-width: 720px;
+      margin: 0;
+      color: #d4e3eb;
+      font-size: 1.12rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border: 1px solid transparent;
+      border-radius: 7px;
+      font-size: .94rem;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .primary { background: #78e8df; color: #062033; }
+    .secondary { border-color: #7997a9; color: white; }
+
+    .stats {
+      padding: 25px 0;
+      background: var(--paper);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+
+    .stat strong {
+      display: block;
+      color: var(--navy);
+      font-size: 1.8rem;
+      letter-spacing: -.05em;
+    }
+
+    .stat span { color: var(--muted); font-size: .88rem; }
+
+    section { padding: 78px 0; }
+
+    .label {
+      color: #008d84;
+      font-size: .8rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    h2 {
+      max-width: 780px;
+      margin: 8px 0 16px;
+      font-size: clamp(1.9rem, 3.5vw, 2.9rem);
+      line-height: 1.12;
+      letter-spacing: -.045em;
+    }
+
+    .intro {
+      max-width: 770px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .projects {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+      margin-top: 36px;
+    }
+
+    .project {
+      display: flex;
+      flex-direction: column;
+      min-height: 310px;
+      padding: 28px;
+      background: white;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      transition: transform .18s ease, box-shadow .18s ease;
+    }
+
+    .project:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 18px 38px rgba(7, 24, 39, .10);
+    }
+
+    .project-number {
+      color: #008d84;
+      font-size: .77rem;
+      font-weight: 850;
+      letter-spacing: .12em;
+    }
+
+    .project h3 {
+      margin: 13px 0 12px;
+      color: var(--navy);
+      font-size: 1.38rem;
+      line-height: 1.18;
+      letter-spacing: -.035em;
+    }
+
+    .project p { margin: 0; color: var(--muted); }
+
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: auto;
+      padding-top: 22px;
+    }
+
+    .tag {
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #e7f5f3;
+      color: var(--navy);
+      font-size: .75rem;
+      font-weight: 750;
+    }
+
+    .project a {
+      margin-top: 19px;
+      color: var(--navy);
+      font-weight: 850;
+      text-decoration-color: var(--teal);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 4px;
+    }
+
+    .approach {
+      color: white;
+      background: var(--navy);
+    }
+
+    .approach .intro { color: #d2e1e9; }
+
+    .approach-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-top: 34px;
+    }
+
+    .approach-card {
+      padding-top: 16px;
+      border-top: 2px solid var(--teal);
+    }
+
+    .approach-card strong { font-size: 1.05rem; }
+    .approach-card p { margin: 8px 0 0; color: #c9d8e0; }
+
+    .about {
+      display: grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 62px;
+      align-items: start;
+    }
+
+    .skills {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      border-top: 1px solid var(--line);
+    }
+
+    .skill {
+      padding: 14px 10px 14px 0;
+      border-bottom: 1px solid var(--line);
+      color: var(--navy);
+      font-weight: 750;
+    }
+
+    .contact {
+      padding: 30px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: var(--paper);
+    }
+
+    .contact h3 {
+      margin: 0 0 8px;
+      color: var(--navy);
+      font-size: 1.45rem;
+      letter-spacing: -.035em;
+    }
+
+    .contact p { margin: 0 0 18px; color: var(--muted); }
+    .contact a { color: var(--navy); font-weight: 850; }
+
+    footer {
+      padding: 28px 0;
+      color: #b4c5cf;
+      background: var(--ink);
+      font-size: .86rem;
+    }
+
+    footer .wrap {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    @media (max-width: 760px) {
+      .links { display: none; }
+      .hero { padding: 64px 0 56px; }
+      .stat-grid, .approach-grid { grid-template-columns: repeat(2, 1fr); }
+      .projects, .about { grid-template-columns: 1fr; }
+      .skills { grid-template-columns: 1fr; }
+      section { padding: 58px 0; }
+    }
+
+    @media (max-width: 430px) {
+      .wrap { width: min(100% - 28px, 1120px); }
+      .stat-grid, .approach-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <nav class="wrap">
+      <a class="brand" href="#top">Guy <span>Diangana</span></a>
+      <div class="links">
+        <a href="#projects">Projects</a>
+        <a href="#approach">Approach</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="wrap">
+        <div class="eyebrow">Infrastructure Security · IAM · Security Operations</div>
+        <h1>Secure the infrastructure. Defend identity. Respond with evidence.</h1>
+        <p>
+          Bilingual cybersecurity and infrastructure professional with enterprise
+          experience in identity, Citrix remote access, Windows environments,
+          security operations, vulnerability remediation and cloud-security engineering.
+        </p>
+        <div class="actions">
+          <a class="button primary" href="#projects">Explore NorthStar projects</a>
+          <a class="button secondary" href="https://github.com/gdiangana-alt" target="_blank" rel="noreferrer">GitHub profile</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats">
+      <div class="wrap stat-grid">
+        <div class="stat"><strong>10+ years</strong><span>Infrastructure and IAM experience</span></div>
+        <div class="stat"><strong>200+</strong><span>Security incidents supported</span></div>
+        <div class="stat"><strong>98%</strong><span>Incident SLA performance</span></div>
+        <div class="stat"><strong>6 projects</strong><span>One Azure security narrative</span></div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="wrap">
+        <div class="label">NorthStar Security Portfolio</div>
+        <h2>Six projects. One coherent enterprise-security story.</h2>
+        <p class="intro">
+          The NorthStar portfolio moves from secure foundations to identity,
+          detection, delivery controls and architecture. Each project links to
+          its public evidence and documentation.
+        </p>
+
+        <div class="projects">
+          <article class="project">
+            <div class="project-number">01 · NETWORK SECURITY</div>
+            <h3>Azure Network Security Lab — VNet Segmentation & NSG Troubleshooting</h3>
+            <p>Designed segmented Azure networking, implemented subnet-level NSG controls, analysed effective rules and documented repeatable Bicep and Azure CLI deployment planning.</p>
+            <div class="tags"><span class="tag">Azure VNet</span><span class="tag">NSG</span><span class="tag">Bicep</span><span class="tag">Troubleshooting</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-azure-lab" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">02 · IDENTITY & ACCESS</div>
+            <h3>IAM Lab — Entra ID Zero Trust & Access Management</h3>
+            <p>Implemented Entra users and groups, RBAC/ABAC, MFA security defaults, managed identities, Azure Policy and lifecycle-control evidence.</p>
+            <div class="tags"><span class="tag">Entra ID</span><span class="tag">RBAC / ABAC</span><span class="tag">Azure Policy</span><span class="tag">Terraform</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-identity-zero-trust" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">03 · SECURITY OPERATIONS</div>
+            <h3>SOC Lab — Microsoft Sentinel Detection & Incident Response</h3>
+            <p>Built an Azure Activity Log to Log Analytics to Sentinel workflow, wrote KQL detection logic, triggered a controlled event and completed investigation and closure evidence.</p>
+            <div class="tags"><span class="tag">Microsoft Sentinel</span><span class="tag">KQL</span><span class="tag">MITRE ATT&CK</span><span class="tag">Incident Response</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-azure-security-operations" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">04 · CLOUD FOUNDATION</div>
+            <h3>Secure Azure Landing Zone — Segmented Infrastructure & WAF</h3>
+            <p>Built a Terraform-managed Azure landing zone with segmented networking, Application Gateway WAF, App Service, Key Vault, managed identities and Sentinel detection.</p>
+            <div class="tags"><span class="tag">Terraform</span><span class="tag">Application Gateway WAF</span><span class="tag">Key Vault</span><span class="tag">Managed Identity</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-secure-azure-landing-zone" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">05 · SECURE DELIVERY</div>
+            <h3>DevSecOps Pipeline — Terraform Policy, Security Scans & PR Gates</h3>
+            <p>Created a secure infrastructure-delivery pipeline with Terraform quality checks, Checkov scanning, policy-as-code, protected pull requests and passwordless OIDC live planning.</p>
+            <div class="tags"><span class="tag">GitHub Actions</span><span class="tag">Checkov</span><span class="tag">OIDC</span><span class="tag">Policy as Code</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-secure-devsecops-pipeline" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+
+          <article class="project">
+            <div class="project-number">06 · ENTERPRISE ARCHITECTURE</div>
+            <h3>Cloud Security Architecture Case Study — Enterprise Zero Trust Design</h3>
+            <p>Connected identity governance, network security, data protection, monitoring, incident response, risk treatment and residual-risk decisions into an enterprise cloud-security design.</p>
+            <div class="tags"><span class="tag">Zero Trust</span><span class="tag">Threat Model</span><span class="tag">Governance</span><span class="tag">Architecture</span></div>
+            <a href="https://github.com/gdiangana-alt/northstar-enterprise-cloud-security" target="_blank" rel="noreferrer">View project ↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="approach" id="approach">
+      <div class="wrap">
+        <div class="label">Engineering approach</div>
+        <h2>Controls have to make operational and business sense.</h2>
+        <p class="intro">
+          The portfolio distinguishes lab-validated work from target-state architecture.
+          That boundary is deliberate: credible evidence beats inflated claims.
+        </p>
+
+        <div class="approach-grid">
+          <div class="approach-card">
+            <strong>Design for least privilege</strong>
+            <p>Identity, access and network choices start by reducing unnecessary pathways and excessive permissions.</p>
+          </div>
+          <div class="approach-card">
+            <strong>Instrument and investigate</strong>
+            <p>Controls are paired with telemetry, detection logic, investigation evidence and repeatable incident records.</p>
+          </div>
+          <div class="approach-card">
+            <strong>Make delivery repeatable</strong>
+            <p>Infrastructure-as-code, policy enforcement and documentation reduce drift and make technical handoff stronger.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="wrap about">
+        <div>
+          <div class="label">Professional focus</div>
+          <h2>Enterprise infrastructure experience, built toward modern cloud security.</h2>
+          <p class="intro">
+            My background includes Citrix remote access, Active Directory, VPN,
+            Windows infrastructure, virtual desktop platforms, IAM/RBAC,
+            security operations and incident troubleshooting. NorthStar shows
+            how that enterprise foundation transfers into Azure security work.
+          </p>
+
+          <div class="skills">
+            <div class="skill">Identity & access management</div>
+            <div class="skill">Security operations & incident response</div>
+            <div class="skill">Citrix, VDI & remote-access security</div>
+            <div class="skill">Windows & Active Directory</div>
+            <div class="skill">Azure & infrastructure automation</div>
+            <div class="skill">Vulnerability remediation & documentation</div>
+          </div>
+        </div>
+
+        <aside class="contact" id="contact">
+          <h3>Let’s talk security.</h3>
+          <p>Open to cybersecurity, IAM, infrastructure-security, security-operations and cloud-security opportunities in Ottawa–Gatineau, Montréal and Canada-wide remote.</p>
+          <a href="mailto:gdiangana@gmail.com">gdiangana@gmail.com</a><br>
+          <a href="https://www.linkedin.com/in/benkindo-guy-diangana-7565901a5/" target="_blank" rel="noreferrer">LinkedIn profile ↗</a>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© 2026 Guy Diangana</span>
+      <span>NorthStar Security Portfolio · Build → Protect → Detect → Respond → Architect</span>
+    </div>
+  </footer>
+</body>
+</html>
