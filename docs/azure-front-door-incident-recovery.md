@@ -3,7 +3,7 @@
 **Service:** GuyDiangana.com portfolio site  
 **Platform:** Azure Front Door Standard and Azure Storage static website  
 **Incident window:** October 17–18, 2026  
-**Status:** Resolved; preventive improvements pending
+**Status:** Resolved; reliability controls prepared for implementation
 
 ## Executive summary
 
@@ -55,6 +55,25 @@ The Azure Front Door endpoint was disabled, preventing the configured route from
 
 The reason the endpoint entered a disabled state is not yet established. Review the Azure Activity Log for Front Door write operations in the incident window. Document the initiating principal, operation name, timestamp, and correlation ID before assigning an underlying root cause.
 
+Use the following read-only query while signed in to the Azure subscription:
+
+```bash
+endpoint_id="$(az afd endpoint show \
+  --profile-name northstar-portfolio-afd \
+  --resource-group northstar-portfolio-rg \
+  --endpoint-name guydiangana-portfolio-519 \
+  --query id --output tsv)"
+
+az monitor activity-log list \
+  --resource-id "$endpoint_id" \
+  --start-time 2026-10-17T00:00:00Z \
+  --end-time 2026-10-19T00:00:00Z \
+  --query "[].{Time:eventTimestamp,Operation:operationName.localizedValue,Status:status.localizedValue,Caller:caller,Correlation:correlationId}" \
+  --output table
+```
+
+Record the output in a private incident note. Do not add account identifiers, callers, or raw logs to the public repository.
+
 ## Recovery runbook
 
 1. Confirm impact from an external network and record the exact HTTP status and visible error.
@@ -75,8 +94,8 @@ The reason the endpoint entered a disabled state is not yet established. Review 
 
 | Priority | Action | Outcome |
 | --- | --- | --- |
-| High | Configure an external HTTPS availability test for `https://www.guydiangana.com` | Detect public failure independently of portal access |
-| High | Alert on failed availability tests and Front Door endpoint changes | Reduce time to detection and response |
+| High | Run a scheduled public-content probe from GitHub Actions | Detect edge failures independently of portal access |
+| High | Deploy the Azure activity-log alert definition in `infra/azure-monitoring` | Detect endpoint write operations with an email notification |
 | High | Retain and review Azure Activity Log for Front Door writes | Establish accountable change history |
 | Medium | Move Front Door configuration into reviewed infrastructure-as-code | Reduce drift and provide a rollback path |
 | Medium | Apply least-privilege roles for Front Door changes | Limit who can disable public delivery |
@@ -85,3 +104,7 @@ The reason the endpoint entered a disabled state is not yet established. Review 
 ## Exercise outcome
 
 The recovery demonstrated the value of layered validation: test the public edge, test the origin independently, inspect endpoint state, and verify configuration before making changes. The follow-up focuses on external monitoring, controlled change paths, and a concise recovery runbook.
+
+## Publication boundary
+
+This record is retained as internal engineering evidence. It is not a public portfolio feature until the Activity Log review is complete and the preventive controls above are deployed and tested.
