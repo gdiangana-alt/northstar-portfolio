@@ -1,0 +1,40 @@
+name: Public site availability
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/public-site-availability.yml"
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-public-edge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+    steps:
+      - name: Verify HTTPS response and expected content
+        run: |
+          set -euo pipefail
+          body="$(mktemp)"
+          trap 'rm -f "$body"' EXIT
+
+          curl \
+            --fail \
+            --silent \
+            --show-error \
+            --location \
+            --connect-timeout 10 \
+            --max-time 30 \
+            --retry 2 \
+            --retry-all-errors \
+            --output "$body" \
+            "https://www.guydiangana.com/"
+
+          grep -Fq "Guy Diangana | Cloud &amp; Identity Security" "$body"
+          grep -Fq "Engineering secure infrastructure, trusted identity, and resilient operations." "$body"
+
+          echo "Public availability check passed."
