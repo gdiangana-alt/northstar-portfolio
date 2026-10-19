@@ -28,6 +28,7 @@ resource "azurerm_monitor_action_group" "front_door" {
 resource "azurerm_monitor_activity_log_alert" "front_door_endpoint_administrative_change" {
   name                = "northstar-frontdoor-endpoint-admin-change"
   resource_group_name = var.resource_group_name
+  location            = "Global"
   scopes              = [var.front_door_endpoint_resource_id]
 
   criteria {
