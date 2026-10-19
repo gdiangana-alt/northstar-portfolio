@@ -7,15 +7,31 @@ This Terraform definition records the desired state for two narrowly scoped Azur
 
 It is intentionally separate from the existing application infrastructure because it protects an already-deployed shared public endpoint.
 
+## Persistent state
+
+Terraform state is stored in the existing Azure Storage backend rather than in Azure Cloud Shell. Cloud Shell sessions can be ephemeral; local state would make Terraform ownership unreliable.
+
+- Resource group: `NorthStar-Landing-Zone-RG`
+- Storage account: `northstartfstate244d`
+- Container: `tfstate`
+- State key: `northstar-portfolio/azure-monitoring.tfstate`
+
+The backend uses the signed-in Azure identity and Azure RBAC. No account keys or state files are committed to this repository.
+
 ## Adopt existing resources before apply
 
 The action group and activity-log alert were first deployed manually during incident follow-through. Do **not** run `terraform apply` against this subscription until Terraform has imported those resources; otherwise Azure will reject the duplicate names.
 
-Use Azure Cloud Shell to discover IDs, initialize Terraform, and import the deployed resources:
+Use Azure Cloud Shell to discover IDs, initialize the persistent backend, and import the deployed resources:
 
 ```bash
 cd ~/northstar-portfolio/infra/azure-monitoring
-terraform init
+terraform init -reconfigure \
+  -backend-config="resource_group_name=NorthStar-Landing-Zone-RG" \
+  -backend-config="storage_account_name=northstartfstate244d" \
+  -backend-config="container_name=tfstate" \
+  -backend-config="key=northstar-portfolio/azure-monitoring.tfstate" \
+  -backend-config="use_azuread_auth=true"
 endpoint_id="$(az afd endpoint show \
   --profile-name northstar-portfolio-afd \
   --resource-group northstar-portfolio-rg \
