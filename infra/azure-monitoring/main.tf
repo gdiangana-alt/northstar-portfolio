@@ -25,14 +25,13 @@ resource "azurerm_monitor_action_group" "front_door" {
   }
 }
 
-resource "azurerm_monitor_activity_log_alert" "front_door_endpoint_write" {
-  name                = "northstar-frontdoor-endpoint-change"
+resource "azurerm_monitor_activity_log_alert" "front_door_endpoint_administrative_change" {
+  name                = "northstar-frontdoor-endpoint-admin-change"
   resource_group_name = var.resource_group_name
   scopes              = [var.front_door_endpoint_resource_id]
 
   criteria {
-    category       = "Administrative"
-    operation_name = "Microsoft.Cdn/profiles/afdEndpoints/write"
+    category = "Administrative"
   }
 
   action {

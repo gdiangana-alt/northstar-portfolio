@@ -1,9 +1,9 @@
 # Azure Front Door Incident Recovery Exercise
 
-**Service:** GuyDiangana.com portfolio site  
-**Platform:** Azure Front Door Standard and Azure Storage static website  
-**Incident window:** October 17–18, 2026  
-**Status:** Resolved; reliability controls prepared for implementation
+**Service:** GuyDiangana.com public site
+**Platform:** Azure Front Door Standard and Azure Storage static website
+**Incident window:** October 17–18, 2026
+**Status:** Resolved; independent availability monitoring implemented
 
 ## Executive summary
 
@@ -90,21 +90,24 @@ Record the output in a private incident note. Do not add account identifiers, ca
 8. Validate the public custom domain in a private browser session and from a second network.
 9. Capture final evidence, update the timeline, and review Activity Log before assigning root cause.
 
-## Preventive actions
+## Reliability controls implemented
 
-| Priority | Action | Outcome |
+| Control | State | Outcome |
 | --- | --- | --- |
-| High | Run a scheduled public-content probe from GitHub Actions | Detect edge failures independently of portal access |
-| High | Deploy the Azure activity-log alert definition in `infra/azure-monitoring` | Detect endpoint write operations with an email notification |
-| High | Retain and review Azure Activity Log for Front Door writes | Establish accountable change history |
-| Medium | Move Front Door configuration into reviewed infrastructure-as-code | Reduce drift and provide a rollback path |
-| Medium | Apply least-privilege roles for Front Door changes | Limit who can disable public delivery |
-| Medium | Rehearse this runbook quarterly | Make recovery repeatable and mobile-friendly |
+| GitHub Actions public-content probe | Implemented | Checks HTTPS reachability and expected page content every ten minutes. |
+| Independent external availability monitor | Implemented and email-tested | Checks the public HTTPS endpoint every five minutes and sends outage and recovery notifications. |
+| Azure Activity Log alerts | Deployed for endpoint administrative changes | Retained as a control-plane audit signal. Email delivery was not validated during this exercise, so it is not the primary paging mechanism. |
+| Terraform monitoring definition | Added | Captures the intended Azure Monitor configuration; manually created resources must be imported before Terraform manages them. |
+| Activity Log review | Ongoing | Required before assigning an underlying cause for the endpoint disablement. |
+
+## Monitoring decision
+
+The public endpoint must be monitored from outside Azure Front Door. Azure configuration alerts are useful for change visibility, but they are not sufficient proof that visitors can reach the site or that a notification will arrive. The independent monitor is therefore the primary availability notification path. GitHub Actions provides a second, content-aware verification path.
 
 ## Exercise outcome
 
-The recovery demonstrated the value of layered validation: test the public edge, test the origin independently, inspect endpoint state, and verify configuration before making changes. The follow-up focuses on external monitoring, controlled change paths, and a concise recovery runbook.
+The recovery demonstrated the value of layered validation: test the public edge, test the origin independently, inspect endpoint state, and verify configuration before making changes. The resulting design adds independent external monitoring, content-aware scheduled validation, controlled change paths, and a concise recovery runbook.
 
 ## Publication boundary
 
-This record is retained as internal engineering evidence. It is not a public portfolio feature until the Activity Log review is complete and the preventive controls above are deployed and tested.
+This record is retained as internal engineering evidence. It is not a public site feature. The public site may reference the resulting resilience practices only after the underlying Activity Log review is complete.
